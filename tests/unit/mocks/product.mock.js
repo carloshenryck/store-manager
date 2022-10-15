@@ -13,6 +13,12 @@ const products = [
   }
 ];
 
+const newProduct = {
+  "id": 4,
+  "name": "Traje do Homem de Ferro",
+};
+
 module.exports = {
   products,
+  newProduct,
 };

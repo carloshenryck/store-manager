@@ -1,8 +1,8 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 const productModel = require('../../../src/models/product.model');
-const { products } = require('./mocks/product.model.mock');
-const { findAll, findById } = require('../../../src/services/product.service');
+const { products, newProduct } = require('../mocks/product.mock');
+const { findAll, findById, registerProduct } = require('../../../src/services/product.service');
 
 describe('tests for the service of products', function () {
   afterEach(sinon.restore);
@@ -29,6 +29,22 @@ describe('tests for the service of products', function () {
       sinon.stub(productModel, 'findById').resolves(products[0]);
       const result = await findById(1);
       expect(result.message).to.deep.equal(products[0]);
+    });
+  });
+
+  describe('register a new product', function () {
+    it('return an error if the length of the name is smaller than 5 characters', async function () {
+      const result = await registerProduct('Four');
+      expect(result.type).equal('INVALID_NAME');
+      expect(result.message).equal('"name" length must be at least 5 characters long');
+    });
+
+    it('register a new product successfully', async function () {
+      sinon.stub(productModel, 'registerProduct').resolves(4);
+      sinon.stub(productModel, 'findById').resolves(newProduct);
+      const result = await registerProduct('Traje do  Homem de Ferro');
+      expect(result.type).equal(null);
+      expect(result.message).to.deep.equal(newProduct);
     });
   });
 });
