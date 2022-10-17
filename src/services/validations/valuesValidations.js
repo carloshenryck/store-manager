@@ -1,4 +1,4 @@
-const { idSchema, nameSchema } = require('./schemas');
+const { idSchema, nameSchema, quantitySchema } = require('./schemas');
 
 const validateId = (id) => {
   const { error } = idSchema.validate(id);
@@ -17,7 +17,21 @@ const validateName = (name) => {
   return { type: null, message: '' };
 };
 
+const validateSale = (salesInfo) => {
+  for (let i = 0; i < salesInfo.length; i += 1) {
+    const { error } = quantitySchema.validate(salesInfo[i].quantity);
+    if (error) {
+      return {
+        type: 'INVALID_QUANTITY', message: '"quantity" must be greater than or equal to 1',
+      };
+    }
+  }
+
+  return { type: null, message: '' };
+};
+
 module.exports = {
   validateId,
   validateName,
+  validateSale,
 };
