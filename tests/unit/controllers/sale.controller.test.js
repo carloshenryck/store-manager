@@ -12,18 +12,35 @@ chai.use(sinonChai);
 describe('tests for the controller of sale', function () {
   afterEach(sinon.restore);
 
-  it('register a new sale', async function () {
-    const res = {};
-    const req = { newSale };
-    
-    res.status = sinon.stub().returns(res);
-    res.json = sinon.stub().returns();
-    sinon
-      .stub(saleService, 'registerSale')
-      .resolves({ type: null, message: newSale });
-    
-    await saleController.registerSale(req, res);
-    expect(res.status).to.have.been.calledWith(201);
-    expect(res.json).to.have.been.calledWith(newSale);
-  })
+  describe('register a new sale', function () {
+    it('unsuccessfully register', async function () {
+      const res = {};
+      const req = { newSale };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(saleService, 'registerSale')
+        .resolves({ type: 'PRODUCT_NOT_FOUND', message: 'Product not found' });
+
+      await saleController.registerSale(req, res);
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
+    });
+
+    it('successfully register', async function () {
+      const res = {};
+      const req = { newSale };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(saleService, 'registerSale')
+        .resolves({ type: null, message: newSale });
+
+      await saleController.registerSale(req, res);
+      expect(res.status).to.have.been.calledWith(201);
+      expect(res.json).to.have.been.calledWith(newSale);
+    })
+  });
 });
