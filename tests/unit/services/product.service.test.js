@@ -35,7 +35,7 @@ describe('tests for the service of products', function () {
   describe('register a new product', function () {
     it('return an error if the length of the name is smaller than 5 characters', async function () {
       const result = await registerProduct('Four');
-      expect(result.type).equal('INVALID_NAME');
+      expect(result.type).equal('INVALID');
       expect(result.message).equal('"name" length must be at least 5 characters long');
     });
 

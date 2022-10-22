@@ -2,7 +2,7 @@ const { idSchema, nameSchema, quantitySchema } = require('./schemas');
 
 const validateId = (id) => {
   const { error } = idSchema.validate(id);
-  if (error) return { type: 'INVALID_VALUE', message: 'id must be a number' };
+  if (error) return { type: 'INVALID', message: 'id must be a number' };
 
   return { type: null, message: '' };
 };
@@ -11,7 +11,7 @@ const validateName = (name) => {
   const { error } = nameSchema.validate(name);
   if (error) {
     return {
-      type: 'INVALID_NAME', message: '"name" length must be at least 5 characters long',
+      type: 'INVALID', message: '"name" length must be at least 5 characters long',
     }; 
   } 
   return { type: null, message: '' };
@@ -22,7 +22,7 @@ const validateSale = (salesInfo) => {
     const { error } = quantitySchema.validate(salesInfo[i].quantity);
     if (error) {
       return {
-        type: 'INVALID_QUANTITY', message: '"quantity" must be greater than or equal to 1',
+        type: 'INVALID', message: '"quantity" must be greater than or equal to 1',
       };
     }
   }

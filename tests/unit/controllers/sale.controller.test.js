@@ -21,7 +21,7 @@ describe('tests for the controller of sale', function () {
       res.json = sinon.stub().returns();
       sinon
         .stub(saleService, 'registerSale')
-        .resolves({ type: 'PRODUCT_NOT_FOUND', message: 'Product not found' });
+        .resolves({ type: 'NOT_FOUND', message: 'Product not found' });
 
       await saleController.registerSale(req, res);
       expect(res.status).to.have.been.calledWith(404);
@@ -42,5 +42,56 @@ describe('tests for the controller of sale', function () {
       expect(res.status).to.have.been.calledWith(201);
       expect(res.json).to.have.been.calledWith(newSale);
     })
+  });
+
+  describe('get sale by id', function () {
+    it('sale doesnt exists', async function () {
+      const res = {};
+      const req = {
+        params: { id: 8 },
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(saleService, 'getSaleById')
+        .resolves({ type: 'NOT_FOUND', message: 'Sale not found' });
+
+      await saleController.getSaleById(req, res);
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
+    });
+
+    it('sale exists', async function () {
+      const res = {};
+      const req = { 
+        params: { id: 8 },
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(saleService, 'getSaleById')
+        .resolves({ type: null, message: newSale });
+
+      await saleController.getSaleById(req, res);
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(newSale);
+    });
+  });
+
+  it('get all sales', async function () {
+    const res = {};
+    const req = {};
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon
+      .stub(saleService, 'getAllSales')
+      .resolves({ type: null, message: newSale });
+
+    await saleController.getAllSales(req, res);
+    expect(res.status).to.have.been.calledWith(200);
+    expect(res.json).to.have.been.calledWith(newSale);
   });
 });

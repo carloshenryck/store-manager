@@ -39,7 +39,7 @@ describe('tests for the controller of products', function () {
       res.json = sinon.stub().returns();
       sinon
         .stub(productServices, 'findById')
-        .resolves({ type: 'PRODUCT_NOT_FOUND', message: 'Product not found' })
+        .resolves({ type: 'NOT_FOUND', message: 'Product not found' })
 
       await productController.getProductById(req, res);
 
@@ -77,7 +77,7 @@ describe('tests for the controller of products', function () {
       res.json = sinon.stub().returns();
       sinon
         .stub(productServices, 'registerProduct')
-        .resolves({ type: 'INVALID_NAME', message: 'name length must be at least 5 characters long' });
+        .resolves({ type: 'INVALID', message: 'name length must be at least 5 characters long' });
 
       await productController.registerProduct(req, res);
 

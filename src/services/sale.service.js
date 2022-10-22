@@ -7,7 +7,7 @@ const doesProductExists = async (salesInfo) => {
   await Promise.all(
     salesInfo.map(async (sale) => {
       const result = await productModel.findById(sale.productId);
-      if (!result) error = { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
+      if (!result) error = { type: 'NOT_FOUND', message: 'Product not found' };
     }),
   );
   
@@ -28,12 +28,25 @@ const registerSale = async (salesInfo) => {
     }),
   );
 
-  const salesById = await saleModel.getSaleById(saleId);
+  const salesById = await saleModel.getSaleByIdWithoutDate(saleId);
   const sales = { id: saleId, itemsSold: salesById };
   return { type: null, message: sales };
+};
+
+const getSaleById = async (saleId) => {
+  const sale = await saleModel.getSaleById(saleId);
+  if (sale.length === 0) return { type: 'NOT_FOUND', message: 'Sale not found' };
+  return { type: null, message: sale };
+};
+
+const getAllSales = async () => {
+  const sale = await saleModel.getAllSales();
+  return { type: null, message: sale };
 };
 
 module.exports = {
   registerSale,
   doesProductExists,
+  getSaleById,
+  getAllSales,
 };

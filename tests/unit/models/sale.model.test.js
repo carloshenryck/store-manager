@@ -19,4 +19,22 @@ describe('tests for the model of sale', function () {
     const result = await saleModel.insertSaleProduct(3, newSale);
     expect(result).equal(undefined);
   });
+
+  it('get sale by id without date', async function () {
+    sinon.stub(connection, 'execute').resolves([newSale]);
+    const result = await saleModel.getSaleByIdWithoutDate(1);
+    expect(result).to.be.deep.equal(newSale);
+  });
+
+  it('get sale by id', async function () {
+    sinon.stub(connection, 'execute').resolves([newSale]);
+    const result = await saleModel.getSaleById(1);
+    expect(result).to.be.deep.equal(newSale);
+  });
+
+  it('get all sales', async function () {
+    sinon.stub(connection, 'execute').resolves([newSale]);
+    const result = await saleModel.getAllSales();
+    expect(result).to.be.deep.equal(newSale);
+  });
 });
