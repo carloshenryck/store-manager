@@ -18,4 +18,4 @@ REST API to manage a store's sales and products
 ![ExpressJS](https://img.shields.io/badge/Express.js-black?style=for-the-badge&logo=express)
 
 ## 🧠 What I learned
-In this project I learned how to create an REST API using the model-service-controller(MSC) architecture
+In this project I learned how to create an REST API using the  **model-service-controller(MSC)** architecture
